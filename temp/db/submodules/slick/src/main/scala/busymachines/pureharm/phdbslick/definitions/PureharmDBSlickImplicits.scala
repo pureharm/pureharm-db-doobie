@@ -15,12 +15,12 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-package busymachines.pureharm.dbslick
+package busymachines.pureharm.phdbslick.definitions
 
 /**
   *
   * @author Lorand Szakacs, https://github.com/lorandszakacs
-  * @since 04 Apr 2019
+  * @since 06 May 2019
   *
   */
-object implicits extends types.SlickConnectionIOCatsInstances
+trait PureharmDBSlickImplicits extends SlickConnectionIOCatsInstances {}

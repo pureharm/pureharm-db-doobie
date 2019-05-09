@@ -15,31 +15,31 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-package busymachines.pureharm.dbslick
+package busymachines.pureharm
 
 /**
   *
-  * For now we only expose one single configuration,
-  * in future versions we'll provide more configurable,
-  * and type-safe DSL, so you don't accidentally shoot yourself
-  * in the foot by providing a possibly dead-locking config.
-  *
-  * @param queueSize
-  * @param maxConnections
   * @author Lorand Szakacs, https://github.com/lorandszakacs
-  * @since 02 Apr 2019
+  * @since 06 May 2019
+  *
   */
-final case class SlickDBIOAsyncExecutorConfig(
-  prefixName:     String,
-  queueSize:      Int,
-  maxConnections: Int,
-)
+object db {
+  final object JDBCUrl extends PhantomType[String]
+  final type JDBCUrl = JDBCUrl.Type
 
-object SlickDBIOAsyncExecutorConfig {
+  final object DBUsername extends PhantomType[String]
+  final type DBUsername = DBUsername.Type
 
-  def default: SlickDBIOAsyncExecutorConfig = SlickDBIOAsyncExecutorConfig(
-    prefixName     = "pureharm-db",
-    queueSize      = 2000,
-    maxConnections = 20,
-  )
+  final object DBPassword extends PhantomType[String]
+  final type DBPassword = DBPassword.Type
+
+  final object TableName extends PhantomType[String]
+  final type TableName = TableName.Type
+
+  final object ConnectionIOEC extends PhantomType[scala.concurrent.ExecutionContext]
+  final type ConnectionIOEC = ConnectionIOEC.Type
+
+  final type DAOAlgebra[R[_], E, PK] = phdb.DAOAlgebra[R, E, PK]
+
+  final type PureharmDBCoreTypeDefinitions = phdb.PureharmDBCoreTypeDefinitions
 }
