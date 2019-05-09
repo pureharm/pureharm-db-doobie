@@ -15,7 +15,12 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-package busymachines.pureharm.phdbslick
+package busymachines.pureharm.phdbslick.definitions
+
+import busymachines.pureharm.effects.MonadError
+import busymachines.pureharm.db.ConnectionIOEC
+import busymachines.pureharm.phdbslick.slickTypes._
+import busymachines.pureharm.phdbslick.impl.ConnectionIOMonadError
 
 /**
   *
@@ -23,4 +28,7 @@ package busymachines.pureharm.phdbslick
   * @since 04 Apr 2019
   *
   */
-object implicits extends types.PureharmDBSlickImplicits
+trait SlickConnectionIOCatsInstances {
+  implicit def connectionIOInstance(implicit ec: ConnectionIOEC): MonadError[ConnectionIO, Throwable] =
+    new ConnectionIOMonadError
+}

@@ -15,7 +15,9 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-package busymachines.pureharm
+package busymachines.pureharm.phdbslick
+
+import busymachines.pureharm.PhantomType
 
 /**
   *
@@ -23,7 +25,7 @@ package busymachines.pureharm
   * @since 22 Apr 2019
   *
   */
-package object phdbslick {
+object slickTypes {
   final type ConnectionIO[T] = slick.dbio.DBIO[T]
   final val ConnectionIO: slick.dbio.DBIO.type = slick.dbio.DBIO
 
