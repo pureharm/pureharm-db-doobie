@@ -15,34 +15,25 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-package busymachines.pureharm
+package busymachines.pureharm.db
 
-import busymachines.pureharm.phantom.PhantomType
+import busymachines.pureharm.anomaly._
 
 /**
   *
   * @author Lorand Szakacs, https://github.com/lorandszakacs
-  * @since 13 Jun 2019
+  * @since 16 Jun 2019
   *
   */
-package object db {
-  final object JDBCUrl extends PhantomType[String] {
+abstract class DBEntryNotFoundAnomaly(val pk: String, override val causedBy: Option[Throwable])
+    extends NotFoundAnomaly(s"DB row with pk=$pk not found", causedBy) {
+  override val id: AnomalyID = DBEntryNotFoundAnomaly.DBEntryNotFoundAnomalyID
+  override val parameters: Anomaly.Parameters = Anomaly.Parameters(
+    DBEntryNotFoundAnomaly.PK -> pk,
+  )
+}
 
-    def postgresql(port: Int, host: String, db: DatabaseName): this.Type =
-      this.apply(s"jdbc:postgresql://$host:$port/$db")
-  }
-
-  final type JDBCUrl = JDBCUrl.Type
-
-  final object DBUsername extends PhantomType[String]
-  final type DBUsername = DBUsername.Type
-
-  final object DBPassword extends PhantomType[String]
-  final type DBPassword = DBPassword.Type
-
-  final object TableName extends PhantomType[String]
-  final type TableName = TableName.Type
-
-  final object DatabaseName extends PhantomType[String]
-  final type DatabaseName = DatabaseName.Type
+object DBEntryNotFoundAnomaly {
+  private val PK = "pk"
+  case object DBEntryNotFoundAnomalyID extends AnomalyID { override val name: String = "ph_db_001" }
 }
