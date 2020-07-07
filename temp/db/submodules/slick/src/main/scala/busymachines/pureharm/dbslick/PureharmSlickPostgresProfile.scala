@@ -1,5 +1,5 @@
 /**
-  * Copyright (c) 2017-2019 BusyMachines
+  * Copyright (c) 2019 BusyMachines
   *
   * See company homepage at: https://www.busymachines.com/
   *
@@ -18,18 +18,14 @@
 package busymachines.pureharm.dbslick
 
 import busymachines.pureharm.db.PureharmDBCoreTypeDefinitions
-import busymachines.pureharm.internals.dbslick._
+import busymachines.pureharm.internals
 
 /**
   * @author Lorand Szakacs, https://github.com/lorandszakacs
   * @since 12 Jun 2019
   */
-@scala.deprecated(
-  "Use busymachines.pureharm.dbslick.PureharmSlickPostgresProfile, support for non Postgresql slick will be dropped in the future",
-  "0.0.6-M2",
-)
-trait PureharmSlickDBProfile extends PureharmDBCoreTypeDefinitions with PureharmDBSlickTypeDefinitions {
-  self: slick.jdbc.JdbcProfile =>
+trait PureharmSlickPostgresProfile
+  extends slick.jdbc.PostgresProfile with PureharmDBCoreTypeDefinitions with PureharmDBSlickTypeDefinitions { self =>
 
   /**
     * We use this trick to propagate the profile from the top level object to the
@@ -39,9 +35,6 @@ trait PureharmSlickDBProfile extends PureharmDBCoreTypeDefinitions with Pureharm
     * Thus, in your app you should probably have something like the following:
     *
     * {{{
-    *  //you need to depend on a specific support. For Postgres:
-    *  //there is the ``pureharm-db-slick-psql` module
-    *  import busymachines.pureharm.dbslick.psql.PureharmSlickPostgresProfile
     *
     * trait MyAppSlickProfile
     *   extends PureharmSlickPostgresProfile
@@ -51,8 +44,6 @@ trait PureharmSlickDBProfile extends PureharmDBCoreTypeDefinitions with Pureharm
     *
     *    trait MyAppSlickProfileAPI extends super.API with PureharmSlickPostgresAPIWithImplicits
     * }
-    *
-    * object MyAppSlickProfile extends MyAppSlickProfile
     * }}}
     *
     * And when you do the following imports:
@@ -81,7 +72,7 @@ trait PureharmSlickDBProfile extends PureharmDBCoreTypeDefinitions with Pureharm
     *   import myapp.effects._
     *   import myapp.effects.implicits._ //see how to use pureharm-effects-cats
     *   import myapp.db._
-    *   import myapp.db.implicits._ //see how to use pureharm-effects-cats
+    *   import myapp.db.implicits._
     *
     *   class MyAppDomainSlickDAOIMPL {
     *     //dao method implementations
@@ -94,10 +85,16 @@ trait PureharmSlickDBProfile extends PureharmDBCoreTypeDefinitions with Pureharm
     * While imports of the associated "implicits" brings you everything you need to
     * actually implement things.
     */
-  trait PureharmSlickAPIWithImplicits
-    extends self.API with PureharmSlickInstances.PhantomTypeInstances with SlickConnectionIOCatsInstances
-    with PureharmSlickConnectionIOOps.Implicits with SlickRepoQueriesDefinitions with SlickAliases {
-    final override protected val enclosingProfile: slick.jdbc.JdbcProfile = self
+  trait PureharmSlickPostgresAPIWithImplicits
+    extends this.API with internals.dbslick.PureharmSlickInstances.PhantomTypeInstances
+    with internals.dbslick.SlickConnectionIOCatsInstances with internals.dbslick.PureharmSlickConnectionIOOps.Implicits
+    with internals.dbslick.SlickRepoQueriesDefinitions with internals.dbslick.SlickAliases
+    with internals.dbslick.SlickPostgresCirceSupportAPI {
+    final override protected val enclosingProfile:         slick.jdbc.JdbcProfile     = self
+    final override protected val enclosingPostgresProfile: slick.jdbc.PostgresProfile = self
+
+    final type PostgresqlJSON = internals.dbslick.PostgresqlJSON
+    final val PostgresqlJSON: internals.dbslick.PostgresqlJSON.type = internals.dbslick.PostgresqlJSON
   }
 
   final def slickJDBCProfileAPI: SlickJDBCProfileAPI = this.api
