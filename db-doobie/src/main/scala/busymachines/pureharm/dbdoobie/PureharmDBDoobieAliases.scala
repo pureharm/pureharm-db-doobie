@@ -43,11 +43,7 @@ trait PureharmDBDoobieAliases
 
   type TableWithPK[E, PK] = internals.TableWithPK[E, PK]
 
-  @scala.deprecated("Use DoobieRepo instead, only the name changed", "0.0.6-M2")
-  type DoobieDAOAlgebra[F[_], E, PK, TA <: TableWithPK[E, PK]] = internals.DoobieRepo[F, E, PK, TA]
   type DoobieRepo[F[_], E, PK, TA <: TableWithPK[E, PK]]       = internals.DoobieRepo[F, E, PK, TA]
 
-  @scala.deprecated("Use DoobieRepo instead, only the name changed", "0.0.6-M2")
-  type DoobieQueryAlgebra[E, PK, TA <: TableWithPK[E, PK]] = internals.DoobieRepoQueries[E, PK, TA]
   type DoobieRepoQueries[E, PK, TA <: TableWithPK[E, PK]]  = internals.DoobieRepoQueries[E, PK, TA]
 }
