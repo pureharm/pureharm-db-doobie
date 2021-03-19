@@ -1,21 +1,22 @@
-/** Copyright (c) 2017-2019 BusyMachines
-  *
-  * See company homepage at: https://www.busymachines.com/
-  *
-  * Licensed under the Apache License, Version 2.0 (the "License");
-  * you may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at
-  *
-  *     http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS,
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
-  */
+/*
+ * Copyright 2019 BusyMachines
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package busymachines.pureharm.dbdoobie.test
 
+import cats.effect.BracketThrow
 import busymachines.pureharm.effects._
 import busymachines.pureharm.db._
 import busymachines.pureharm.db.testdata._
@@ -23,17 +24,17 @@ import busymachines.pureharm.dbdoobie._
 
 /** Use this also as a rough outline of how you ought to structure
   * your code. Create a trait that extends the
-  * [[Repo[F, MyCaseClass, MyPrimaryKeyType]]]
+  * Repo[F, MyCaseClass, MyPrimaryKeyType]
   * add whatever new methods/override the default ones you need here.
   *
   * Implement the queries in terms of ConnectionIO similar to
-  * [[DoobiePHRowRepo.DoobiePHRowQueries]]
+  * DoobiePHRowRepo.DoobiePHRowQueries
   *
   * and the final DAO in IO similar to
-  * [[DoobiePHRowRepo.DoobiePHRowRepoImpl]]
+  * DoobiePHRowRepo.DoobiePHRowRepoImpl
   *
   * Voila! Bunch of free CRUD! + a lot of helpers to build
-  * common queries in the [[DoobiePHRowRepo.DoobieDoobiePHRowTable]]
+  * common queries in the DoobiePHRowRepo.DoobieDoobiePHRowTable
   *
   * @author Lorand Szakacs, https://github.com/lorandszakacs
   * @since 24 Sep 2019
@@ -42,7 +43,7 @@ private[test] trait DoobiePHRowRepo[F[_]] extends PHRowRepo[F]
 
 private[test] object DoobiePHRowRepo {
 
-  def apply[F[_]: BracketAttempt](trans: Transactor[F]): DoobiePHRowRepo[F] = {
+  def apply[F[_]: BracketThrow](trans: Transactor[F]): DoobiePHRowRepo[F] = {
     implicit val i: Transactor[F] = trans
     new DoobiePHRowRepoImpl[F]
   }
@@ -51,7 +52,7 @@ private[test] object DoobiePHRowRepo {
   import busymachines.pureharm.dbdoobie.implicits._
   import busymachines.pureharm.json._
 
-  object DoobieDoobiePHRowTable extends TableWithPK[PHRow, PhantomPK] {
+  object DoobieDoobiePHRowTable extends TableWithPK[PHRow, SproutPK] {
     override val name: TableName = schema.PureharmRows
 
     val byte_col:      Column = createColumn("byte")
@@ -68,20 +69,20 @@ private[test] object DoobiePHRowRepo {
     implicit val phJSONColJsonCodec: Codec[PHJSONCol] = derive.codec[PHJSONCol]
     implicit val phJSONColJsonMeta:  Meta[PHJSONCol]  = jsonMeta[PHJSONCol]
 
-    override val showPK: Show[PhantomPK] = Show[PhantomPK]
-    override val metaPK: Meta[PhantomPK] = Meta[PhantomPK]
+    override val showPK: Show[SproutPK] = Show[SproutPK]
+    override val metaPK: Meta[SproutPK] = Meta[SproutPK]
     override val readE:  Read[PHRow]     = Read[PHRow]
     override val writeE: Write[PHRow]    = Write[PHRow]
   }
 
   final private object DoobiePHRowQueries
-    extends DoobieRepoQueries[PHRow, PhantomPK, DoobieDoobiePHRowTable.type] with DoobiePHRowRepo[ConnectionIO] {
+    extends DoobieRepoQueries[PHRow, SproutPK, DoobieDoobiePHRowTable.type] with DoobiePHRowRepo[ConnectionIO] {
     override def table: DoobieDoobiePHRowTable.type = DoobieDoobiePHRowTable
   }
 
-  final private class DoobiePHRowRepoImpl[F[_]: BracketAttempt](implicit
+  final private class DoobiePHRowRepoImpl[F[_]: BracketThrow](implicit
     override val transactor: Transactor[F]
-  ) extends DoobieRepo[F, PHRow, PhantomPK, DoobieDoobiePHRowTable.type] with DoobiePHRowRepo[F] {
+  ) extends DoobieRepo[F, PHRow, SproutPK, DoobieDoobiePHRowTable.type] with DoobiePHRowRepo[F] {
     override protected val queries: DoobiePHRowQueries.type = DoobiePHRowQueries
   }
 }

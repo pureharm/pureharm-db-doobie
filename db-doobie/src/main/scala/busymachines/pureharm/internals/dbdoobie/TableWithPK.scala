@@ -1,19 +1,19 @@
-/** Copyright (c) 2019 BusyMachines
-  *
-  * See company homepage at: https://www.busymachines.com/
-  *
-  * Licensed under the Apache License, Version 2.0 (the "License");
-  * you may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at
-  *
-  * http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS,
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
-  */
+/*
+ * Copyright 2019 BusyMachines
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package busymachines.pureharm.internals.dbdoobie
 
 import busymachines.pureharm.db._
@@ -133,7 +133,7 @@ abstract class TableWithPK[E, PK](implicit private val iden: Identifiable[E, PK]
     *
     * Usage example:
     * {{{
-    *    object DoobiePureharmTable extends TableWithPK[PureharmRow, PhantomPK] {
+    *    object DoobiePureharmTable extends TableWithPK[PureharmRow, SproutPK] {
     *     override val name: TableName = schema.PureharmRows
     *
     *     val byte_col:    Column = createColumn("byte")
@@ -147,8 +147,8 @@ abstract class TableWithPK[E, PK](implicit private val iden: Identifiable[E, PK]
     *     implicit private[DoobiePureharmRowDAO] val pureharmJSONColMeta: Meta[PureharmJSONCol] =
     *       jsonMeta[PureharmJSONCol](derive.codec[PureharmJSONCol])
     *
-    *     override val showPK: Show[PhantomPK]    = Show[PhantomPK]
-    *     override val metaPK: Meta[PhantomPK]    = Meta[PhantomPK]
+    *     override val showPK: Show[SproutPK]    = Show[SproutPK]
+    *     override val metaPK: Meta[SproutPK]    = Meta[SproutPK]
     *     override val readE:  Read[PureharmRow]  = Read[PureharmRow]
     *     override val writeE: Write[PureharmRow] = Write[PureharmRow]
     *   }
