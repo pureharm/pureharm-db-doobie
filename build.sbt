@@ -85,16 +85,16 @@ ThisBuild / versionIntroduced := Map(
 ThisBuild / resolvers += Resolver.sonatypeRepo("releases")
 ThisBuild / resolvers += Resolver.sonatypeRepo("snapshots")
 
-val pureharmCoreV       = "0.1.0-7bc6204"  //https://github.com/busymachines/pureharm-core/releases
-val pureharmEffectsV    = "0.1.0-4946221"  //https://github.com/busymachines/pureharm-effects-cats/releases
-val pureharmDBCoreV     = "0.1.0-ea46bd5"  //https://github.com/busymachines/pureharm-db-core/releases
-val pureharmDBCoreJDBCV = "0.1.0-556c9fc" //https://github.com/busymachines/pureharm-db-core-jdbc/releases
-val pureharmJSONCirceV  = "0.1.0-3ab2d2c"  //https://github.com/busymachines/pureharm-json-circe/releases
+val pureharmCoreV       = "0.1.0"  //https://github.com/busymachines/pureharm-core/releases
+val pureharmEffectsV    = "0.1.0"  //https://github.com/busymachines/pureharm-effects-cats/releases
+val pureharmDBCoreV     = "0.1.0"  //https://github.com/busymachines/pureharm-db-core/releases
+val pureharmDBCoreJDBCV = "0.1.0" //https://github.com/busymachines/pureharm-db-core-jdbc/releases
+val pureharmJSONCirceV  = "0.1.0"  //https://github.com/busymachines/pureharm-json-circe/releases
 
 lazy val doobieV    = "0.12.1" //https://github.com/tpolecat/doobie/releases
 
 //for testing
-val pureharmDBTestkitV = "0.1.0-fa3e619" //https://github.com/busymachines/pureharm-db-testkit/releases
+val pureharmDBTestkitV = "0.1.0" //https://github.com/busymachines/pureharm-db-testkit/releases
 val log4catsV = "1.2.0" //https://github.com/typelevel/log4cats/releases
 //=============================================================================
 //============================== Project details ==============================
