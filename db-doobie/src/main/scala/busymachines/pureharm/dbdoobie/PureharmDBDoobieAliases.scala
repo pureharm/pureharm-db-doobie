@@ -16,7 +16,7 @@
 
 package busymachines.pureharm.dbdoobie
 
-import busymachines.pureharm.internals
+import busymachines.pureharm.dbdoobie.internals
 
 /** @author Lorand Szakacs, https://github.com/lorandszakacs
   * @since 24 Sep 2019
@@ -31,23 +31,23 @@ trait PureharmDBDoobieAliases
     * backed up by a fixed thread pool with the number of threads
     * equal to the number of connections
     */
-  val DoobieConnectionEC: internals.dbdoobie.DoobieConnectionEC.type = internals.dbdoobie.DoobieConnectionEC
-  type DoobieConnectionEC = internals.dbdoobie.DoobieConnectionEC
+  val DoobieConnectionEC: internals.DoobieConnectionEC.type = internals.DoobieConnectionEC
+  type DoobieConnectionEC = internals.DoobieConnectionEC
 
   /** Denotes the EC on which transactions(dbops) are managed,
     * backed up by a cached thread pool because blocking
     * i/o is executed on this one
     */
-  val DoobieBlocker: internals.dbdoobie.DoobieBlocker.type = internals.dbdoobie.DoobieBlocker
-  type DoobieBlocker = internals.dbdoobie.DoobieBlocker
+  val DoobieBlocker: internals.DoobieBlocker.type = internals.DoobieBlocker
+  type DoobieBlocker = internals.DoobieBlocker
 
-  type TableWithPK[E, PK] = internals.dbdoobie.TableWithPK[E, PK]
-
-  @scala.deprecated("Use DoobieRepo instead, only the name changed", "0.0.6-M2")
-  type DoobieDAOAlgebra[F[_], E, PK, TA <: TableWithPK[E, PK]] = internals.dbdoobie.DoobieRepo[F, E, PK, TA]
-  type DoobieRepo[F[_], E, PK, TA <: TableWithPK[E, PK]]       = internals.dbdoobie.DoobieRepo[F, E, PK, TA]
+  type TableWithPK[E, PK] = internals.TableWithPK[E, PK]
 
   @scala.deprecated("Use DoobieRepo instead, only the name changed", "0.0.6-M2")
-  type DoobieQueryAlgebra[E, PK, TA <: TableWithPK[E, PK]] = internals.dbdoobie.DoobieRepoQueries[E, PK, TA]
-  type DoobieRepoQueries[E, PK, TA <: TableWithPK[E, PK]]  = internals.dbdoobie.DoobieRepoQueries[E, PK, TA]
+  type DoobieDAOAlgebra[F[_], E, PK, TA <: TableWithPK[E, PK]] = internals.DoobieRepo[F, E, PK, TA]
+  type DoobieRepo[F[_], E, PK, TA <: TableWithPK[E, PK]]       = internals.DoobieRepo[F, E, PK, TA]
+
+  @scala.deprecated("Use DoobieRepo instead, only the name changed", "0.0.6-M2")
+  type DoobieQueryAlgebra[E, PK, TA <: TableWithPK[E, PK]] = internals.DoobieRepoQueries[E, PK, TA]
+  type DoobieRepoQueries[E, PK, TA <: TableWithPK[E, PK]]  = internals.DoobieRepoQueries[E, PK, TA]
 }

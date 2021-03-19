@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package busymachines.pureharm.internals.dbdoobie
+package busymachines.pureharm.dbdoobie.internals
 
 import busymachines.pureharm.effects._
 import busymachines.pureharm.effects.implicits._

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package busymachines.pureharm.internals
+package busymachines.pureharm.dbdoobie
 
 import busymachines.pureharm.effects._
 import busymachines.pureharm.effects.pools._
@@ -23,7 +23,7 @@ import busymachines.pureharm.sprout._
 /** @author Lorand Szakacs, https://github.com/lorandszakacs
   * @since 26 Jun 2020
   */
-package object dbdoobie {
+package object internals {
 
   /** Denotes the EC on which connections are managed,
     * backed up by a fixed thread pool with the number of threads

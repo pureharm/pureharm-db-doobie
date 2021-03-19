@@ -16,7 +16,7 @@
 
 package busymachines.pureharm.dbdoobie
 
-import busymachines.pureharm.internals.dbdoobie.{SproutMetas, TransactorImplicits}
+import busymachines.pureharm.dbdoobie.internals.{SproutMetas, TransactorImplicits}
 
 /** @author Lorand Szakacs, https://github.com/lorandszakacs
   * @since 24 Sep 2019
