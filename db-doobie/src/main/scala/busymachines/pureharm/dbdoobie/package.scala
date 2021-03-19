@@ -19,7 +19,7 @@ package busymachines.pureharm
 /** @author Lorand Szakacs, https://github.com/lorandszakacs
   * @since 24 Sep 2019
   */
-package object dbdoobie extends PureharmDBDoobieTypeDefinitions {
+package object dbdoobie extends PureharmDBDoobieAliases {
 
   object implicits extends PureharmDBDoobieImplicitsAll
 

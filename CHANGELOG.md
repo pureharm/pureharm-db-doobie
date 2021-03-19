@@ -13,6 +13,7 @@ Split out from [pureharm](https://github.com/busymachines/pureharm) as of versio
 
 :warning: Breaking changes :warning:
 - rename `PhantomTypeMetas` to `SproutMetas`
+- rename `PureharmDBDoobieTypeDefinitions` to `PureharmDBDoobieAliases`
 
 Internals:
 - move `.internals` package

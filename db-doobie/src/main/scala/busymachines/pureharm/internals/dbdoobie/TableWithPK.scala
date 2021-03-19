@@ -34,7 +34,7 @@ abstract class TableWithPK[E, PK](implicit private val iden: Identifiable[E, PK]
     *   override def readE: Read[MyCaseClass] = Read[MyCaseClass]
     * }}}
     *
-    * These are then aliased as implicits in the [[DoobieQueryAlgebra]]
+    * These are then aliased as implicits in the DoobieQueryAlgebra
     * for seamless use 99% of the cases
     */
   def showPK: Show[PK]

@@ -21,7 +21,7 @@ import busymachines.pureharm.internals
 /** @author Lorand Szakacs, https://github.com/lorandszakacs
   * @since 24 Sep 2019
   */
-trait PureharmDBDoobieTypeDefinitions
+trait PureharmDBDoobieAliases
   extends doobie.Aliases with doobie.free.Types with doobie.free.Modules with doobie.postgres.free.Types
   with doobie.postgres.free.Modules with doobie.postgres.hi.Modules {
 
