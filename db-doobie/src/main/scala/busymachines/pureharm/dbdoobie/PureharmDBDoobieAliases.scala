@@ -43,7 +43,7 @@ trait PureharmDBDoobieAliases
 
   type TableWithPK[E, PK] = internals.TableWithPK[E, PK]
 
-  type DoobieRepo[F[_], E, PK, TA <: TableWithPK[E, PK]]       = internals.DoobieRepo[F, E, PK, TA]
+  type DoobieRepo[F[_], E, PK, TA <: TableWithPK[E, PK]] = internals.DoobieRepo[F, E, PK, TA]
 
-  type DoobieRepoQueries[E, PK, TA <: TableWithPK[E, PK]]  = internals.DoobieRepoQueries[E, PK, TA]
+  type DoobieRepoQueries[E, PK, TA <: TableWithPK[E, PK]] = internals.DoobieRepoQueries[E, PK, TA]
 }
