@@ -21,6 +21,7 @@ import busymachines.pureharm.effects._
 import busymachines.pureharm.db._
 import busymachines.pureharm.db.testdata._
 import busymachines.pureharm.dbdoobie._
+import java.util.UUID
 
 /** @author Lorand Szakacs, https://github.com/lorandszakacs
   * @since 03 Jul 2020
@@ -41,7 +42,7 @@ private[test] object DoobieExtPHRowRepo {
     override val name: TableName = schema.PureharmExternalRows
     val row_id:        Column    = createColumn("row_id")
 
-    override val metaPK: Meta[SproutUUID] = Meta[SproutUUID]
+    override val metaPK: Meta[SproutUUID] = Meta[UUID].sprout
     override val showPK: Show[SproutUUID] = Show[SproutUUID]
     override val readE:  Read[ExtPHRow]    = Read[ExtPHRow]
     override val writeE: Write[ExtPHRow]   = Write[ExtPHRow]

@@ -63,4 +63,6 @@ trait SproutMetas {
         o
       }
 
+  implicit def pureharmSproutMetaOps[O](m: Meta[O]): PureharmMetaOps[O] = new PureharmMetaOps(m)
+
 }
