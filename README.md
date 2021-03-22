@@ -14,7 +14,7 @@ We do not even pretend to support anything other than Postgresql.
   - [pureharm-effects-cats](https://github.com/busymachines/pureharm-effects-cats/releases) `0.1.0`
   - [pureharm-db-core](https://github.com/busymachines/pureharm-db-core/releases) `0.1.0`
   - [pureharm-db-core-jdbc](https://github.com/busymachines/pureharm-db-core-jdbc/releases) `0.1.0`
-  - [pureharm-json-circe](https://github.com/busymachines/pureharm-json-circe/releases) `0.1.0`
+  - [pureharm-json-circe](https://github.com/busymachines/pureharm-json-circe/releases) `0.1.1`
 - `"com.busymachines" %% s"pureharm-db-testkit-doobie" % "0.1.0"`. Which has these as its main dependencies:
   - [pureharm-db-testkit](https://github.com/busymachines/pureharm-db-testkit/releases) `0.1.0`
   - [pureharm-db-test-data](https://github.com/busymachines/pureharm-db-testkit/releases) `0.1.0`
