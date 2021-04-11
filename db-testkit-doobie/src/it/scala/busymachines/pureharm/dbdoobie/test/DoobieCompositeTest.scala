@@ -23,7 +23,6 @@ import busymachines.pureharm.db.testkit._
 import busymachines.pureharm.dbdoobie.testkit._
 import busymachines.pureharm.effects._
 import busymachines.pureharm.testkit._
-import org.scalatest._
 
 import org.typelevel.log4cats.slf4j._
 
@@ -34,19 +33,19 @@ final class DoobieCompositeTest extends DBTest[Transactor[IO]] {
 
   override def setup: DBTestSetup[Transactor[IO]] = DoobieCompositeTest
 
-  override def resource(meta: MetaData, trans: Transactor[IO]): Resource[IO, ResourceType] =
+  override def resource(testOptions: TestOptions, trans: Transactor[IO]): Resource[IO, ResourceType] =
     Resource.pure[IO, ResourceType]((DoobiePHRowRepo(trans), DoobieExtPHRowRepo(trans)))
 
   private val data = PHRowRepoTest.pureharmRows
 
-  test("insert - row1 + ext1") { case (row, ext) =>
+  testResource.test("insert - row1 + ext1") { case (row, ext) =>
     for {
       _ <- row.insert(data.row1)
       _ <- ext.insert(data.ext1)
-    } yield succeed
+    } yield ()
   }
 
-  test("insert ext1 -> foreign key does not exist") { case (_, ext) =>
+  testResource.test("insert ext1 -> foreign key does not exist") { case (_, ext) =>
     for {
       att <- ext.insert(data.extNoFPK).attempt
       failure = interceptFailure[DBForeignKeyConstraintViolationAnomaly](att)
@@ -62,6 +61,6 @@ final class DoobieCompositeTest extends DBTest[Transactor[IO]] {
 
 object DoobieCompositeTest extends DoobieDBTestSetup {
 
-  override def dbConfig(meta: TestData)(implicit logger: TestLogger): DBConnectionConfig =
-    PHRTestDBConfig.dbConfig.withSchemaFromClassAndTest(prefix = "doobie", meta = meta)
+  override def dbConfig(testOptions: TestOptions)(implicit logger: TestLogger): DBConnectionConfig =
+    PHRTestDBConfig.dbConfig.withSchemaFromClassAndTest(prefix = "doobie", testOptions = testOptions)
 }
