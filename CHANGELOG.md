@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # unreleased
 
+# 0.2.0
+
 - upgraded to `pureharm-db-testkit` 0.2.0` which replaces scalatest w/ munit. See
 
 ### dependency upgrades
