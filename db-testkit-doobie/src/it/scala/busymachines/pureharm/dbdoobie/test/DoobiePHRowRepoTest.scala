@@ -24,7 +24,6 @@ import busymachines.pureharm.dbdoobie.test.DoobiePHRowRepo.DoobieDoobiePHRowTabl
 import busymachines.pureharm.dbdoobie.testkit._
 import busymachines.pureharm.effects._
 import busymachines.pureharm.testkit._
-import org.scalatest._
 import org.typelevel.log4cats.slf4j._
 
 /** @author Lorand Szakacs, https://github.com/lorandszakacs
@@ -32,16 +31,16 @@ import org.typelevel.log4cats.slf4j._
   */
 final class DoobiePHRowRepoTest extends PHRowRepoTest[Transactor[IO]] {
 
-  override implicit val testLogger: TestLogger = TestLogger(Slf4jLogger.getLogger[IO])
+  implicit override lazy val testLogger: TestLogger = TestLogger(Slf4jLogger.getLogger[IO])
 
   override type ResourceType = DoobiePHRowRepo[IO]
 
   override def setup: DBTestSetup[Transactor[IO]] = DoobiePHRowRepoTest
 
-  override def resource(meta: MetaData, trans: Transactor[IO]): Resource[IO, DoobiePHRowRepo[IO]] =
+  override def resource(testOptions: TestOptions, trans: Transactor[IO]): Resource[IO, DoobiePHRowRepo[IO]] =
     Resource.pure[IO, DoobiePHRowRepo[IO]](DoobiePHRowRepo(trans))
 
-  test("insert row1 + row2 (w/ same unique_string) -> conflict") { implicit repo =>
+  testResource.test("insert row1 + row2 (w/ same unique_string) -> conflict") { implicit repo =>
     for {
       _       <- repo.insert(data.row1)
       attempt <-
@@ -55,7 +54,7 @@ final class DoobiePHRowRepoTest extends PHRowRepoTest[Transactor[IO]] {
     }
   }
 
-  test("insert row1 + row2 (w/ same unique_int) -> conflict") { implicit repo =>
+  testResource.test("insert row1 + row2 (w/ same unique_int) -> conflict") { implicit repo =>
     for {
       _       <- repo.insert(data.row1)
       attempt <-
@@ -69,7 +68,7 @@ final class DoobiePHRowRepoTest extends PHRowRepoTest[Transactor[IO]] {
     }
   }
 
-  test("insert row1 + row2 (w/ same unique_json) -> conflict") { implicit repo =>
+  testResource.test("insert row1 + row2 (w/ same unique_json) -> conflict") { implicit repo =>
     import DoobieDoobiePHRowTable.phJSONColJsonCodec
     import busymachines.pureharm.json.implicits._
     for {
@@ -88,7 +87,7 @@ final class DoobiePHRowRepoTest extends PHRowRepoTest[Transactor[IO]] {
 
 object DoobiePHRowRepoTest extends DoobieDBTestSetup {
 
-  override def dbConfig(meta: TestData)(implicit logger: TestLogger): DBConnectionConfig =
-    PHRTestDBConfig.dbConfig.withSchemaFromClassAndTest(prefix = "doobie", meta = meta)
+  override def dbConfig(testOptions: TestOptions)(implicit logger: TestLogger): DBConnectionConfig =
+    PHRTestDBConfig.dbConfig.withSchemaFromClassAndTest(prefix = "doobie", testOptions = testOptions)
 
 }

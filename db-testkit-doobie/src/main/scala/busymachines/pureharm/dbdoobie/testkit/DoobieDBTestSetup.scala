@@ -22,27 +22,27 @@ import busymachines.pureharm.dbdoobie._
 import busymachines.pureharm.dbdoobie.implicits._
 import busymachines.pureharm.effects._
 import busymachines.pureharm.testkit._
-import busymachines.pureharm.testkit.util.{MDCKeys, PureharmTestRuntime}
-import org.scalatest._
+import busymachines.pureharm.testkit.util._
 
 /** @author Lorand Szakacs, https://github.com/lorandszakacs
   * @since 26 Jun 2020
   */
-trait DoobieDBTestSetup extends DBTestSetup[Transactor[IO]] {
+trait DoobieDBTestSetup extends DBTestSetup[Transactor[IO]] with PureharmTestRuntimeLazyConversions {
 
   /** Should be overridden to create a connection config appropriate for the test
     */
-  override def dbConfig(meta: TestData)(implicit logger: TestLogger): DBConnectionConfig
+  override def dbConfig(testOptions: TestOptions)(implicit logger: TestLogger): DBConnectionConfig
 
   override def dbTransactorInstance(
-    meta:        TestData
+    testOptions: TestOptions
   )(implicit rt: PureharmTestRuntime, logger: TestLogger): Resource[IO, Transactor[IO]] = {
-    val config = dbConfig(meta)
-    import rt.contextShift
+    val config = dbConfig(testOptions)
     for {
-      _     <- logger.info(MDCKeys(meta))(s"CREATING Transactor[IO] for: ${config.jdbcURL}").to[Resource[IO, *]]
+      _     <- logger
+        .info(MDCKeys.testSetup(testOptions))(s"CREATING Transactor[IO] for: ${config.jdbcURL}")
+        .to[Resource[IO, *]]
       trans <- Transactor.pureharmTransactor[IO](
-        dbConfig  = dbConfig(meta),
+        dbConfig  = dbConfig(testOptions),
         dbConnEC  = DoobieConnectionEC.safe(rt.executionContextFT),
         dbBlocker = DoobieBlocker(rt.blocker),
       )
