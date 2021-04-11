@@ -93,7 +93,7 @@ val pureharmDBCoreJDBCV     = "0.4.0"       //https://github.com/busymachines/pu
 val pureharmJSONCirceV      = "0.2.0"       //https://github.com/busymachines/pureharm-json-circe/releases
 val pureharmDBTestkitV      = "0.2.0"       //https://github.com/busymachines/pureharm-db-testkit/releases
 val doobieV                 = "0.12.1"      //https://github.com/tpolecat/doobie/releases
-val log4catsV               = "1.2.0"       //https://github.com/typelevel/log4cats/releases
+val log4catsV               = "1.2.2"       //https://github.com/typelevel/log4cats/releases
 // format: on
 
 //=============================================================================
