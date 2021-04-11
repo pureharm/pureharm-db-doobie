@@ -86,7 +86,7 @@ ThisBuild / resolvers += Resolver.sonatypeRepo("releases")
 ThisBuild / resolvers += Resolver.sonatypeRepo("snapshots")
 
 // format: off
-val pureharmCoreV           = "0.1.0"       //https://github.com/busymachines/pureharm-core/releases
+val pureharmCoreV           = "0.2.0"       //https://github.com/busymachines/pureharm-core/releases
 val pureharmEffectsV        = "0.1.0"       //https://github.com/busymachines/pureharm-effects-cats/releases
 val pureharmDBCoreV         = "0.1.0"       //https://github.com/busymachines/pureharm-db-core/releases
 val pureharmDBCoreJDBCV     = "0.1.0"       //https://github.com/busymachines/pureharm-db-core-jdbc/releases
