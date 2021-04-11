@@ -85,17 +85,17 @@ ThisBuild / versionIntroduced := Map(
 ThisBuild / resolvers += Resolver.sonatypeRepo("releases")
 ThisBuild / resolvers += Resolver.sonatypeRepo("snapshots")
 
-val pureharmCoreV       = "0.1.0"  //https://github.com/busymachines/pureharm-core/releases
-val pureharmEffectsV    = "0.1.0"  //https://github.com/busymachines/pureharm-effects-cats/releases
-val pureharmDBCoreV     = "0.1.0"  //https://github.com/busymachines/pureharm-db-core/releases
-val pureharmDBCoreJDBCV = "0.1.0" //https://github.com/busymachines/pureharm-db-core-jdbc/releases
-val pureharmJSONCirceV  = "0.1.1"  //https://github.com/busymachines/pureharm-json-circe/releases
+// format: off
+val pureharmCoreV           = "0.1.0"       //https://github.com/busymachines/pureharm-core/releases
+val pureharmEffectsV        = "0.1.0"       //https://github.com/busymachines/pureharm-effects-cats/releases
+val pureharmDBCoreV         = "0.1.0"       //https://github.com/busymachines/pureharm-db-core/releases
+val pureharmDBCoreJDBCV     = "0.1.0"       //https://github.com/busymachines/pureharm-db-core-jdbc/releases
+val pureharmJSONCirceV      = "0.1.1"       //https://github.com/busymachines/pureharm-json-circe/releases
+val pureharmDBTestkitV      = "0.1.0"       //https://github.com/busymachines/pureharm-db-testkit/releases
+val doobieV                 = "0.12.1"      //https://github.com/tpolecat/doobie/releases
+val log4catsV               = "1.2.0"       //https://github.com/typelevel/log4cats/releases
+// format: on
 
-lazy val doobieV    = "0.12.1" //https://github.com/tpolecat/doobie/releases
-
-//for testing
-val pureharmDBTestkitV = "0.1.0" //https://github.com/busymachines/pureharm-db-testkit/releases
-val log4catsV = "1.2.0" //https://github.com/typelevel/log4cats/releases
 //=============================================================================
 //============================== Project details ==============================
 //=============================================================================
@@ -115,17 +115,18 @@ lazy val `db-doobie` = project
   .settings(
     name := "pureharm-db-doobie",
     libraryDependencies ++= Seq(
-      "com.busymachines" %% "pureharm-core-identifiable" % pureharmCoreV withSources(),
-      "com.busymachines" %% "pureharm-core-anomaly"      % pureharmCoreV withSources(),
-      "com.busymachines" %% "pureharm-core-sprout"       % pureharmCoreV withSources(),
-      "com.busymachines" %% "pureharm-effects-cats"      % pureharmEffectsV withSources(),
-      "com.busymachines" %% "pureharm-db-core"           % pureharmDBCoreV withSources(),
-      "com.busymachines" %% "pureharm-db-core-jdbc"      % pureharmDBCoreJDBCV withSources(),
-      "com.busymachines" %% "pureharm-json-circe"        % pureharmJSONCirceV withSources(),
-      
-      "org.tpolecat" %% "doobie-core"     % doobieV withSources (),
-      "org.tpolecat" %% "doobie-hikari"   % doobieV withSources (),
-      "org.tpolecat" %% "doobie-postgres" % doobieV withSources (),
+      // format: off
+      "com.busymachines"  %% "pureharm-core-identifiable"   % pureharmCoreV           withSources(),
+      "com.busymachines"  %% "pureharm-core-anomaly"        % pureharmCoreV           withSources(),
+      "com.busymachines"  %% "pureharm-core-sprout"         % pureharmCoreV           withSources(),
+      "com.busymachines"  %% "pureharm-effects-cats"        % pureharmEffectsV        withSources(),
+      "com.busymachines"  %% "pureharm-db-core"             % pureharmDBCoreV         withSources(),
+      "com.busymachines"  %% "pureharm-db-core-jdbc"        % pureharmDBCoreJDBCV     withSources(),
+      "com.busymachines"  %% "pureharm-json-circe"          % pureharmJSONCirceV      withSources(),
+      "org.tpolecat"      %% "doobie-core"                  % doobieV                 withSources(),
+      "org.tpolecat"      %% "doobie-hikari"                % doobieV                 withSources(),
+      "org.tpolecat"      %% "doobie-postgres"              % doobieV                 withSources(),
+      // format: on
     ),
   ).settings(
     javaOptions ++= Seq("-source", "1.8", "-target", "1.8")
@@ -138,9 +139,11 @@ lazy val `db-testkit-doobie` = project
   .settings(
     name := "pureharm-db-testkit-doobie",
     libraryDependencies ++= Seq(
-      "com.busymachines" %% "pureharm-db-testkit" % pureharmDBTestkitV withSources(),
-      "com.busymachines" %% "pureharm-db-test-data" % pureharmDBTestkitV % "it,test" withSources(),
-      "org.typelevel" %% "log4cats-slf4j"   % log4catsV % "it,test" withSources(),
+      // format: off
+      "com.busymachines"  %% "pureharm-db-testkit"   % pureharmDBTestkitV             withSources(),
+      "com.busymachines"  %% "pureharm-db-test-data" % pureharmDBTestkitV % "it,test" withSources(),
+      "org.typelevel"     %% "log4cats-slf4j"        % log4catsV          % "it,test" withSources(),
+      // format: on
     )
   ).settings(
     javaOptions ++= Seq("-source", "1.8", "-target", "1.8")
@@ -151,6 +154,7 @@ lazy val `db-testkit-doobie` = project
 //=============================================================================
 //================================= Settings ==================================
 //=============================================================================
+
 lazy val commonSettings = Seq(
   Compile / unmanagedSourceDirectories ++= {
     val major = if (isDotty.value) "-3" else "-2"
