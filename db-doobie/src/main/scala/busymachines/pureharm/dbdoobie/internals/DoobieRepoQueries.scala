@@ -23,8 +23,10 @@ import busymachines.pureharm.dbdoobie.implicits._
 import busymachines.pureharm.effects._
 import busymachines.pureharm.effects.implicits._
 
-/** @author Lorand Szakacs, https://github.com/lorandszakacs
-  * @since 24 Sep 2019
+/** @author
+  *   Lorand Szakacs, https://github.com/lorandszakacs
+  * @since 24
+  *   Sep 2019
   */
 abstract class DoobieRepoQueries[E, PK, Table <: TableWithPK[E, PK]] extends Repo[ConnectionIO, E, PK] {
   def table: Table

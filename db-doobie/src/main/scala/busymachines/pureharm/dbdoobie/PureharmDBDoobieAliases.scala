@@ -18,8 +18,10 @@ package busymachines.pureharm.dbdoobie
 
 import busymachines.pureharm.dbdoobie.internals
 
-/** @author Lorand Szakacs, https://github.com/lorandszakacs
-  * @since 24 Sep 2019
+/** @author
+  *   Lorand Szakacs, https://github.com/lorandszakacs
+  * @since 24
+  *   Sep 2019
   */
 trait PureharmDBDoobieAliases
   extends doobie.Aliases with doobie.free.Types with doobie.free.Modules with doobie.postgres.free.Types
@@ -27,16 +29,14 @@ trait PureharmDBDoobieAliases
 
   val ConnectionIO: doobie.implicits.AsyncConnectionIO.type = doobie.implicits.AsyncConnectionIO
 
-  /** Denotes the EC on which connections are managed,
-    * backed up by a fixed thread pool with the number of threads
-    * equal to the number of connections
+  /** Denotes the EC on which connections are managed, backed up by a fixed thread pool with the number of threads equal
+    * to the number of connections
     */
   val DoobieConnectionEC: internals.DoobieConnectionEC.type = internals.DoobieConnectionEC
   type DoobieConnectionEC = internals.DoobieConnectionEC
 
-  /** Denotes the EC on which transactions(dbops) are managed,
-    * backed up by a cached thread pool because blocking
-    * i/o is executed on this one
+  /** Denotes the EC on which transactions(dbops) are managed, backed up by a cached thread pool because blocking i/o is
+    * executed on this one
     */
   val DoobieBlocker: internals.DoobieBlocker.type = internals.DoobieBlocker
   type DoobieBlocker = internals.DoobieBlocker

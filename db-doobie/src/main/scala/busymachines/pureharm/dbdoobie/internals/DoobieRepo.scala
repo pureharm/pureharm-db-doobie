@@ -22,8 +22,10 @@ import busymachines.pureharm.dbdoobie.implicits._
 import busymachines.pureharm.effects._
 import cats.effect.BracketThrow
 
-/** @author Lorand Szakacs, https://github.com/lorandszakacs
-  * @since 24 Sep 2019
+/** @author
+  *   Lorand Szakacs, https://github.com/lorandszakacs
+  * @since 24
+  *   Sep 2019
   */
 abstract class DoobieRepo[F[_], E, PK, TA <: TableWithPK[E, PK]](implicit
   val transactor: Transactor[F],

@@ -20,14 +20,15 @@ import busymachines.pureharm.effects._
 import busymachines.pureharm.effects.pools._
 import busymachines.pureharm.sprout._
 
-/** @author Lorand Szakacs, https://github.com/lorandszakacs
-  * @since 26 Jun 2020
+/** @author
+  *   Lorand Szakacs, https://github.com/lorandszakacs
+  * @since 26
+  *   Jun 2020
   */
 package object internals {
 
-  /** Denotes the EC on which connections are managed,
-    * backed up by a fixed thread pool with the number of threads
-    * equal to the number of connections
+  /** Denotes the EC on which connections are managed, backed up by a fixed thread pool with the number of threads equal
+    * to the number of connections
     */
   object DoobieConnectionEC extends SproutSub[ExecutionContext] {
     def safe(ec: ExecutionContextFT): this.Type = this.apply(ec)
@@ -35,9 +36,8 @@ package object internals {
 
   type DoobieConnectionEC = DoobieConnectionEC.Type
 
-  /** Denotes the EC on which transactions(dbops) are managed,
-    * backed up by a cached thread pool because blocking
-    * i/o is executed on this one
+  /** Denotes the EC on which transactions(dbops) are managed, backed up by a cached thread pool because blocking i/o is
+    * executed on this one
     */
   type DoobieBlocker = DoobieBlocker.Type
 

@@ -25,8 +25,10 @@ import io.circe.parser._
 import org.postgresql.util.PGobject
 import org.tpolecat.typename.TypeName
 
-/** @author Lorand Szakacs, https://github.com/lorandszakacs
-  * @since 24 Sep 2019
+/** @author
+  *   Lorand Szakacs, https://github.com/lorandszakacs
+  * @since 24
+  *   Sep 2019
   */
 trait SproutMetas {
 

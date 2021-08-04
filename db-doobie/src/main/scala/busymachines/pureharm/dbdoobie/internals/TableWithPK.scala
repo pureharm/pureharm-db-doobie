@@ -22,20 +22,21 @@ import busymachines.pureharm.effects._
 import busymachines.pureharm.effects.implicits._
 import busymachines.pureharm.identifiable.Identifiable
 
-/** @author Lorand Szakacs, https://github.com/lorandszakacs
-  * @since 24 Sep 2019
+/** @author
+  *   Lorand Szakacs, https://github.com/lorandszakacs
+  * @since 24
+  *   Sep 2019
   */
 abstract class TableWithPK[E, PK](implicit private val iden: Identifiable[E, PK]) {
   def name: TableName
 
-  /** Should be overriden as non implicit since doobie doesn't
-    * provide semiauto-derivation so you want to write in your subclasses:
+  /** Should be overriden as non implicit since doobie doesn't provide semiauto-derivation so you want to write in your
+    * subclasses:
     * {{{
     *   override def readE: Read[MyCaseClass] = Read[MyCaseClass]
     * }}}
     *
-    * These are then aliased as implicits in the DoobieQueryAlgebra
-    * for seamless use 99% of the cases
+    * These are then aliased as implicits in the DoobieQueryAlgebra for seamless use 99% of the cases
     */
   def showPK: Show[PK]
   def metaPK: Meta[PK]
@@ -61,19 +62,19 @@ abstract class TableWithPK[E, PK](implicit private val iden: Identifiable[E, PK]
       final val Comma = ", "
 
       /** @return
-        *  Comma separated enumeration of all columns:
-        *  {{{
+        *   Comma separated enumeration of all columns:
+        * {{{
         *     pk, column1, column 2
-        *  }}}
+        * }}}
         */
       lazy val tuple: String =
         commaSeparated(columnNames)
 
       /** @return
-        *  Comma seperated enumeration of all given columns:
-        *  {{{
+        *   Comma seperated enumeration of all given columns:
+        * {{{
         *     pk, column1, column 2
-        *  }}}
+        * }}}
         */
       def tuple(col: Column, cols: Column*): String =
         commaSeparated(NEList.of(col, cols: _*))
@@ -84,8 +85,7 @@ abstract class TableWithPK[E, PK](implicit private val iden: Identifiable[E, PK]
         s"(${tuple(col, cols: _*)})"
 
       /** @return
-        *   Comma separated enumeration of ? corresponding
-        *   to the total number of columns in the table
+        *   Comma separated enumeration of ? corresponding to the total number of columns in the table
         */
       lazy val qms: String =
         columnNames.map(_ => QM).intercalate(Comma)
@@ -122,18 +122,17 @@ abstract class TableWithPK[E, PK](implicit private val iden: Identifiable[E, PK]
     * Use only in contexts where evaluation is DETERMINISTIC!
     * i.e. in val definitions, or if you don't care to reuse, shove them in a list
     *
-    * This is a limitation of doobie because Read/Write instances
-    * depend on the order of your fields in the case class,
+    * This is a limitation of doobie because Read/Write instances depend on the order of your fields in the case class,
     * and your columns should be ordered in the same way.
     *
     * This is why writing tests is imperative!
     *
-    * Luckily, usage is restricted on on each individual Table instance
-    * so you can only create columns from within a the given table
+    * Luckily, usage is restricted on on each individual Table instance so you can only create columns from within a the
+    * given table
     *
     * Usage example:
     * {{{
-    *    object DoobiePureharmTable extends TableWithPK[PureharmRow, SproutPK] {
+    *   object DoobiePureharmTable extends TableWithPK[PureharmRow, SproutPK] {
     *     override val name: TableName = schema.PureharmRows
     *
     *     val byte_col:    Column = createColumn("byte")

@@ -24,8 +24,10 @@ import busymachines.pureharm.effects._
 import busymachines.pureharm.testkit._
 import busymachines.pureharm.testkit.util._
 
-/** @author Lorand Szakacs, https://github.com/lorandszakacs
-  * @since 26 Jun 2020
+/** @author
+  *   Lorand Szakacs, https://github.com/lorandszakacs
+  * @since 26
+  *   Jun 2020
   */
 trait DoobieDBTestSetup extends DBTestSetup[Transactor[IO]] with PureharmTestRuntimeLazyConversions {
 
