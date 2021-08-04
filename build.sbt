@@ -21,8 +21,8 @@
 addCommandAlias("run-it", "IntegrationTest/test")
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-val Scala213  = "2.13.5"
-val Scala3RC1 = "3.0.0-RC1"
+val Scala213 = "2.13.6"
+val Scala3   = "3.0.1"
 
 //=============================================================================
 //============================ publishing details =============================
@@ -31,7 +31,7 @@ val Scala3RC1 = "3.0.0-RC1"
 //see: https://github.com/xerial/sbt-sonatype#buildsbt
 ThisBuild / sonatypeCredentialHost := "s01.oss.sonatype.org"
 
-ThisBuild / baseVersion      := "0.2"
+ThisBuild / baseVersion      := "0.3"
 ThisBuild / organization     := "com.busymachines"
 ThisBuild / organizationName := "BusyMachines"
 ThisBuild / homepage         := Option(url("https://github.com/busymachines/pureharm-db-testkit"))
@@ -69,12 +69,12 @@ ThisBuild / spiewakMainBranches       := List("main")
 ThisBuild / Test / publishArtifact    := false
 
 ThisBuild / scalaVersion       := Scala213
-ThisBuild / crossScalaVersions := List(Scala213) //List(Scala213, Scala3RC1)
+ThisBuild / crossScalaVersions := List(Scala213, Scala3)
 
 //required for binary compat checks
 ThisBuild / versionIntroduced := Map(
-  Scala213  -> "0.1.0",
-  Scala3RC1 -> "0.1.0",
+  Scala213 -> "0.1.0",
+  Scala3   -> "0.3.0",
 )
 
 //=============================================================================
@@ -84,14 +84,16 @@ ThisBuild / resolvers += Resolver.sonatypeRepo("releases")
 ThisBuild / resolvers += Resolver.sonatypeRepo("snapshots")
 
 // format: off
-val pureharmCoreV           = "0.2.0"       //https://github.com/busymachines/pureharm-core/releases
-val pureharmEffectsV        = "0.4.0"       //https://github.com/busymachines/pureharm-effects-cats/releases
-val pureharmDBCoreV         = "0.4.0"       //https://github.com/busymachines/pureharm-db-core/releases
-val pureharmDBCoreJDBCV     = "0.4.0"       //https://github.com/busymachines/pureharm-db-core-jdbc/releases
-val pureharmJSONCirceV      = "0.2.0"       //https://github.com/busymachines/pureharm-json-circe/releases
-val pureharmDBTestkitV      = "0.2.0"       //https://github.com/busymachines/pureharm-db-testkit/releases
-val doobieV                 = "0.12.1"      //https://github.com/tpolecat/doobie/releases
-val log4catsV               = "1.2.2"       //https://github.com/typelevel/log4cats/releases
+val pureharmCoreV           = "0.3.0"          //https://github.com/busymachines/pureharm-core/releases
+val pureharmEffectsV        = "0.5.0"          //https://github.com/busymachines/pureharm-effects-cats/releases
+val pureharmDBCoreV         = "0.5.0"          //https://github.com/busymachines/pureharm-db-core/releases
+val pureharmDBCoreJDBCV     = "0.5.0"          //https://github.com/busymachines/pureharm-db-core-jdbc/releases
+val pureharmJSONCirceV      = "0.3.0-M1"       //https://github.com/busymachines/pureharm-json-circe/releases
+val pureharmDBTestkitV      = "0.3.0"          //https://github.com/busymachines/pureharm-db-testkit/releases
+val doobieV                 = "1.0.0-M5"       //https://github.com/tpolecat/doobie/releases
+val doobieCE2               = "0.13.4"         //https://github.com/tpolecat/doobie/releases
+val log4catsV               = "2.1.1"          //https://github.com/typelevel/log4cats/releases
+val log4catsCE2V            = "1.3.1"          //https://github.com/typelevel/log4cats/releases
 // format: on
 
 //=============================================================================
