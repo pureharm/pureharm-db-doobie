@@ -7,13 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # unreleased
 
-This is the first release that is also available for Scala 3!
+This is the first release for a stable Scala 3 version, and with cats-effect 3 support!
+
+### :warning: breaking
+- `pureharm-db-doobie` now depends on cats-effect `3.2.1` (w/ doobie `1.0.0-M5`), and the corresponding dependencies for it.
+- `pureharm-db-doobie-ce2` is binary, and source compatible with `pureharm-db-doobie` from version `0.2.0`, so if you haven't migrated to CE3 yet, use the former module.
 
 ### dependency upgrades
 
-- [pureharm-core-anomaly](https://github.com/busymachines/pureharm-core/releases) `0.3.0`
+- [pureharm-core](https://github.com/busymachines/pureharm-core/releases) `0.3.0`
+- [pureharm-effects-cats](https://github.com/busymachines/pureharm-effects-cats/releases) `0.5.0`
 - [pureharm-db-core](https://github.com/busymachines/pureharm-db-core/releases) `0.5.0`
-- [pureharm-db-core](https://github.com/busymachines/pureharm-db-core-jdbc/releases) `0.5.0`
+- [pureharm-db-core-jdbc](https://github.com/busymachines/pureharm-db-core-jdbc/releases) `0.6.0`
+- [pureharm-json-circe](https://github.com/busymachines/pureharm-json-circe/releases) `0.3.0-M1`
+- [pureharm-db-testkit](https://github.com/busymachines/pureharm-db-testkit/releases) `0.3.0`
 
 ### internals
 - bump scalafmt to `3.0.0-RC6` — from `2.7.5`
