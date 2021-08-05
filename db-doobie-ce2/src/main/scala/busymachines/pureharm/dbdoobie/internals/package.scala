@@ -35,4 +35,14 @@ package object internals {
   }
 
   type DoobieConnectionEC = DoobieConnectionEC.Type
+
+  /** Denotes the EC on which transactions(dbops) are managed, backed up by a cached thread pool because blocking i/o is
+    * executed on this one
+    */
+  type DoobieBlocker = DoobieBlocker.Type
+
+  object DoobieBlocker extends SproutSub[Blocker] {
+    def safe(ec: ExecutionContextCT): this.Type = this(Blocker.liftExecutionContext(ec))
+  }
+
 }

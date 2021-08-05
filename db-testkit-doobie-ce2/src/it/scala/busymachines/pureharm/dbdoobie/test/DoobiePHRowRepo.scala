@@ -16,6 +16,7 @@
 
 package busymachines.pureharm.dbdoobie.test
 
+import cats.effect.BracketThrow
 import busymachines.pureharm.effects._
 import busymachines.pureharm.db._
 import busymachines.pureharm.db.testdata._
@@ -39,7 +40,7 @@ private[test] trait DoobiePHRowRepo[F[_]] extends PHRowRepo[F]
 
 private[test] object DoobiePHRowRepo {
 
-  def apply[F[_]: MonadCancelThrow](trans: Transactor[F]): DoobiePHRowRepo[F] = {
+  def apply[F[_]: BracketThrow](trans: Transactor[F]): DoobiePHRowRepo[F] = {
     implicit val i: Transactor[F] = trans
     new DoobiePHRowRepoImpl[F]
   }
@@ -76,7 +77,7 @@ private[test] object DoobiePHRowRepo {
     override def table: DoobieDoobiePHRowTable.type = DoobieDoobiePHRowTable
   }
 
-  private class DoobiePHRowRepoImpl[F[_]: MonadCancelThrow](implicit
+  final private class DoobiePHRowRepoImpl[F[_]: BracketThrow](implicit
     override val transactor: Transactor[F]
   ) extends DoobieRepo[F, PHRow, SproutPK, DoobieDoobiePHRowTable.type] with DoobiePHRowRepo[F] {
     override protected val queries: DoobiePHRowQueries.type = DoobiePHRowQueries

@@ -20,6 +20,7 @@ import busymachines.pureharm.db._
 import busymachines.pureharm.dbdoobie._
 import busymachines.pureharm.dbdoobie.implicits._
 import busymachines.pureharm.effects._
+import cats.effect.BracketThrow
 
 /** @author
   *   Lorand Szakacs, https://github.com/lorandszakacs
@@ -28,7 +29,7 @@ import busymachines.pureharm.effects._
   */
 abstract class DoobieRepo[F[_], E, PK, TA <: TableWithPK[E, PK]](implicit
   val transactor: Transactor[F],
-  val F:          MonadCancelThrow[F],
+  val F:          BracketThrow[F],
 ) extends Repo[F, E, PK] {
 
   final protected def transact[A](cio: ConnectionIO[A])(implicit transactor: Transactor[F]): F[A] =

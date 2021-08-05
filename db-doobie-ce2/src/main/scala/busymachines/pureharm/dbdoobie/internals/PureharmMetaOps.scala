@@ -14,25 +14,18 @@
  * limitations under the License.
  */
 
-package busymachines.pureharm.dbdoobie
+package busymachines.pureharm.dbdoobie.internals
 
 import busymachines.pureharm.effects._
-import busymachines.pureharm.effects.pools._
+import busymachines.pureharm.effects.implicits._
 import busymachines.pureharm.sprout._
+import doobie.Meta
 
-/** @author
-  *   Lorand Szakacs, https://github.com/lorandszakacs
-  * @since 26
-  *   Jun 2020
-  */
-package object internals {
+final class PureharmMetaOps[O](val m: Meta[O]) extends AnyVal {
+  def sprout[N](implicit sp: NewType[O, N]): Meta[N] = m.imap(sp.newType)(sp.oldType)
 
-  /** Denotes the EC on which connections are managed, backed up by a fixed thread pool with the number of threads equal
-    * to the number of connections
-    */
-  object DoobieConnectionEC extends SproutSub[ExecutionContext] {
-    def safe(ec: ExecutionContextFT): this.Type = this.apply(ec)
-  }
-
-  type DoobieConnectionEC = DoobieConnectionEC.Type
+  def sproutRefined[N](implicit sp: RefinedTypeThrow[O, N], so: Show[O]): Meta[N] = new Meta[N](
+    get = m.get.temap(o => sp.newType[Attempt](o).leftMap(_.getMessage)),
+    put = m.put.contramap(sp.oldType),
+  )
 }
