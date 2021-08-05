@@ -16,22 +16,21 @@
 
 package busymachines.pureharm.dbdoobie.test
 
+import cats.effect.BracketThrow
 import busymachines.pureharm.effects._
 import busymachines.pureharm.db._
 import busymachines.pureharm.db.testdata._
 import busymachines.pureharm.dbdoobie._
 import java.util.UUID
 
-/** @author
-  *   Lorand Szakacs, https://github.com/lorandszakacs
-  * @since 03
-  *   Jul 2020
+/** @author Lorand Szakacs, https://github.com/lorandszakacs
+  * @since 03 Jul 2020
   */
 private[test] trait DoobieExtPHRowRepo[F[_]] extends Repo[F, ExtPHRow, SproutUUID]
 
 private[test] object DoobieExtPHRowRepo {
 
-  def apply[F[_]: MonadCancelThrow](trans: Transactor[F]): DoobieExtPHRowRepo[F] = {
+  def apply[F[_]: BracketThrow](trans: Transactor[F]): DoobieExtPHRowRepo[F] = {
     implicit val i: Transactor[F] = trans
     new DoobieExtPHRrowRepoImpl[F]
   }
@@ -45,8 +44,8 @@ private[test] object DoobieExtPHRowRepo {
 
     override val metaPK: Meta[SproutUUID] = Meta[UUID].sprout
     override val showPK: Show[SproutUUID] = Show[SproutUUID]
-    override val readE:  Read[ExtPHRow]   = Read[ExtPHRow]
-    override val writeE: Write[ExtPHRow]  = Write[ExtPHRow]
+    override val readE:  Read[ExtPHRow]    = Read[ExtPHRow]
+    override val writeE: Write[ExtPHRow]   = Write[ExtPHRow]
   }
 
   private object DoobieExtPHRowQueries
@@ -54,7 +53,7 @@ private[test] object DoobieExtPHRowRepo {
     override def table: DoobiePHExtRowTable.type = DoobiePHExtRowTable
   }
 
-  private class DoobieExtPHRrowRepoImpl[F[_]: MonadCancelThrow](implicit
+  final private class DoobieExtPHRrowRepoImpl[F[_]: BracketThrow](implicit
     override val transactor: Transactor[F]
   ) extends DoobieRepo[F, ExtPHRow, SproutUUID, DoobiePHExtRowTable.type] with DoobieExtPHRowRepo[F] {
     override protected lazy val queries: DoobieExtPHRowQueries.type = DoobieExtPHRowQueries

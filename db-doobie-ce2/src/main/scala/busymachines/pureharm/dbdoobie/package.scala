@@ -14,25 +14,15 @@
  * limitations under the License.
  */
 
-package busymachines.pureharm.dbdoobie
-
-import busymachines.pureharm.effects._
-import busymachines.pureharm.effects.pools._
-import busymachines.pureharm.sprout._
+package busymachines.pureharm
 
 /** @author
   *   Lorand Szakacs, https://github.com/lorandszakacs
-  * @since 26
-  *   Jun 2020
+  * @since 24
+  *   Sep 2019
   */
-package object internals {
+package object dbdoobie extends PureharmDBDoobieAliases {
 
-  /** Denotes the EC on which connections are managed, backed up by a fixed thread pool with the number of threads equal
-    * to the number of connections
-    */
-  object DoobieConnectionEC extends SproutSub[ExecutionContext] {
-    def safe(ec: ExecutionContextFT): this.Type = this.apply(ec)
-  }
+  object implicits extends PureharmDBDoobieImplicitsAll
 
-  type DoobieConnectionEC = DoobieConnectionEC.Type
 }

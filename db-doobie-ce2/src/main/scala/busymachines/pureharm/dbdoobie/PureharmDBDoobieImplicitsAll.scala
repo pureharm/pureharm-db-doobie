@@ -16,23 +16,16 @@
 
 package busymachines.pureharm.dbdoobie
 
-import busymachines.pureharm.effects._
-import busymachines.pureharm.effects.pools._
-import busymachines.pureharm.sprout._
+import busymachines.pureharm.dbdoobie.internals.{SproutMetas, TransactorImplicits}
 
 /** @author
   *   Lorand Szakacs, https://github.com/lorandszakacs
-  * @since 26
-  *   Jun 2020
+  * @since 24
+  *   Sep 2019
   */
-package object internals {
-
-  /** Denotes the EC on which connections are managed, backed up by a fixed thread pool with the number of threads equal
-    * to the number of connections
-    */
-  object DoobieConnectionEC extends SproutSub[ExecutionContext] {
-    def safe(ec: ExecutionContextFT): this.Type = this.apply(ec)
-  }
-
-  type DoobieConnectionEC = DoobieConnectionEC.Type
-}
+trait PureharmDBDoobieImplicitsAll
+  extends doobie.syntax.AllSyntax with doobie.util.meta.SqlMeta with doobie.util.meta.TimeMeta
+  with doobie.util.meta.LegacyMeta with doobie.free.Instances with doobie.postgres.Instances
+  with doobie.postgres.free.Instances with doobie.postgres.syntax.ToPostgresMonadErrorOps
+  with doobie.postgres.syntax.ToFragmentOps with doobie.postgres.syntax.ToPostgresExplainOps with SproutMetas
+  with TransactorImplicits {}

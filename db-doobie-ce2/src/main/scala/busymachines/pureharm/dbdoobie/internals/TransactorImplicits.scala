@@ -32,20 +32,22 @@ trait TransactorImplicits {
 
   implicit class TransStuff(t: Transactor.type) {
 
-    def pureharmTransactor[F[_]: Async](
-      dbConfig: DBConnectionConfig,
-      dbConnEC: DoobieConnectionEC,
+    def pureharmTransactor[F[_]: Async: ContextShift](
+      dbConfig:  DBConnectionConfig,
+      dbConnEC:  DoobieConnectionEC,
+      dbBlocker: DoobieBlocker,
     ): Resource[F, Transactor[F]] =
-      TransactorImplicits.pureharmTransactor[F](dbConfig, dbConnEC)
+      TransactorImplicits.pureharmTransactor[F](dbConfig, dbConnEC, dbBlocker)
   }
 
 }
 
 private[pureharm] object TransactorImplicits {
 
-  def pureharmTransactor[F[_]: Async](
-    dbConfig: DBConnectionConfig,
-    dbConnEC: DoobieConnectionEC,
+  def pureharmTransactor[F[_]: Async: ContextShift](
+    dbConfig:  DBConnectionConfig,
+    dbConnEC:  DoobieConnectionEC,
+    dbBlocker: DoobieBlocker,
   ): Resource[F, Transactor[F]] =
     for {
       transactor <- HikariTransactor.newHikariTransactor(
@@ -54,6 +56,7 @@ private[pureharm] object TransactorImplicits {
         user            = dbConfig.username,
         pass            = dbConfig.password,
         connectEC       = dbConnEC,
+        blocker         = dbBlocker,
       )
     } yield transactor
 }

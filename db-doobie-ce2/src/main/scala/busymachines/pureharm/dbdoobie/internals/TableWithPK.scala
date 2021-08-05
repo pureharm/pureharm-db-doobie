@@ -191,7 +191,9 @@ abstract class TableWithPK[E, PK](implicit private val iden: Identifiable[E, PK]
         orderedColumns.+=(newValue)
         newValue
       }
+
     }
     private[TableWithPK] def internalTag(s: String): Column = super.apply(s)
   }
+
 }

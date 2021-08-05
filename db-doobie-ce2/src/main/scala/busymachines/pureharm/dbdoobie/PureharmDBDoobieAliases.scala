@@ -27,13 +27,19 @@ trait PureharmDBDoobieAliases
   extends doobie.Aliases with doobie.free.Types with doobie.free.Modules with doobie.postgres.free.Types
   with doobie.postgres.free.Modules with doobie.postgres.hi.Modules {
 
-  @volatile lazy val ConnectionIO = doobie.implicits.WeakAsyncConnectionIO
+  @volatile lazy val ConnectionIO = doobie.implicits.AsyncConnectionIO
 
   /** Denotes the EC on which connections are managed, backed up by a fixed thread pool with the number of threads equal
     * to the number of connections
     */
   val DoobieConnectionEC: internals.DoobieConnectionEC.type = internals.DoobieConnectionEC
   type DoobieConnectionEC = internals.DoobieConnectionEC
+
+  /** Denotes the EC on which transactions(dbops) are managed, backed up by a cached thread pool because blocking i/o is
+    * executed on this one
+    */
+  val DoobieBlocker: internals.DoobieBlocker.type = internals.DoobieBlocker
+  type DoobieBlocker = internals.DoobieBlocker
 
   type TableWithPK[E, PK] = internals.TableWithPK[E, PK]
 

@@ -17,8 +17,8 @@
 //=============================================================================
 //============================== build details ================================
 //=============================================================================
+addCommandAlias("run-it", "++IntegrationTest/test")
 
-addCommandAlias("run-it", "IntegrationTest/test")
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 val Scala213 = "2.13.6"
@@ -87,11 +87,11 @@ ThisBuild / resolvers += Resolver.sonatypeRepo("snapshots")
 val pureharmCoreV           = "0.3.0"          //https://github.com/busymachines/pureharm-core/releases
 val pureharmEffectsV        = "0.5.0"          //https://github.com/busymachines/pureharm-effects-cats/releases
 val pureharmDBCoreV         = "0.5.0"          //https://github.com/busymachines/pureharm-db-core/releases
-val pureharmDBCoreJDBCV     = "0.5.0"          //https://github.com/busymachines/pureharm-db-core-jdbc/releases
+val pureharmDBCoreJDBCV     = "0.6.0"          //https://github.com/busymachines/pureharm-db-core-jdbc/releases
 val pureharmJSONCirceV      = "0.3.0-M1"       //https://github.com/busymachines/pureharm-json-circe/releases
 val pureharmDBTestkitV      = "0.3.0"          //https://github.com/busymachines/pureharm-db-testkit/releases
 val doobieV                 = "1.0.0-M5"       //https://github.com/tpolecat/doobie/releases
-val doobieCE2               = "0.13.4"         //https://github.com/tpolecat/doobie/releases
+val doobieCE2V              = "0.13.4"         //https://github.com/tpolecat/doobie/releases
 val log4catsV               = "2.1.1"          //https://github.com/typelevel/log4cats/releases
 val log4catsCE2V            = "1.3.1"          //https://github.com/typelevel/log4cats/releases
 // format: on
@@ -105,6 +105,8 @@ lazy val root = project
   .aggregate(
     `db-doobie`,
     `db-testkit-doobie`,
+    `db-doobie-ce2`,
+    `db-testkit-doobie-ce2`,
   )
   .enablePlugins(NoPublishPlugin)
   .enablePlugins(SonatypeCiReleasePlugin)
@@ -116,16 +118,16 @@ lazy val `db-doobie` = project
     name := "pureharm-db-doobie",
     libraryDependencies ++= Seq(
       // format: off
-      "com.busymachines"  %% "pureharm-core-identifiable"   % pureharmCoreV           withSources(),
-      "com.busymachines"  %% "pureharm-core-anomaly"        % pureharmCoreV           withSources(),
-      "com.busymachines"  %% "pureharm-core-sprout"         % pureharmCoreV           withSources(),
-      "com.busymachines"  %% "pureharm-effects-cats"        % pureharmEffectsV        withSources(),
-      "com.busymachines"  %% "pureharm-db-core"             % pureharmDBCoreV         withSources(),
-      "com.busymachines"  %% "pureharm-db-core-jdbc"        % pureharmDBCoreJDBCV     withSources(),
-      "com.busymachines"  %% "pureharm-json-circe"          % pureharmJSONCirceV      withSources(),
-      "org.tpolecat"      %% "doobie-core"                  % doobieV                 withSources(),
-      "org.tpolecat"      %% "doobie-hikari"                % doobieV                 withSources(),
-      "org.tpolecat"      %% "doobie-postgres"              % doobieV                 withSources(),
+      "com.busymachines"    %% "pureharm-core-identifiable"     % pureharmCoreV                     withSources(),
+      "com.busymachines"    %% "pureharm-core-anomaly"          % pureharmCoreV                     withSources(),
+      "com.busymachines"    %% "pureharm-core-sprout"           % pureharmCoreV                     withSources(),
+      "com.busymachines"    %% "pureharm-effects-cats"          % pureharmEffectsV                  withSources(),
+      "com.busymachines"    %% "pureharm-db-core"               % pureharmDBCoreV                   withSources(),
+      "com.busymachines"    %% "pureharm-db-core-jdbc"          % pureharmDBCoreJDBCV               withSources(),
+      "com.busymachines"    %% "pureharm-json-circe"            % pureharmJSONCirceV                withSources(),
+      "org.tpolecat"        %% "doobie-core"                    % doobieV                           withSources(),
+      "org.tpolecat"        %% "doobie-hikari"                  % doobieV                           withSources(),
+      "org.tpolecat"        %% "doobie-postgres"                % doobieV                           withSources(),
       // format: on
     ),
   )
@@ -141,9 +143,9 @@ lazy val `db-testkit-doobie` = project
     name := "pureharm-db-testkit-doobie",
     libraryDependencies ++= Seq(
       // format: off
-      "com.busymachines"  %% "pureharm-db-testkit"   % pureharmDBTestkitV             withSources(),
-      "com.busymachines"  %% "pureharm-db-test-data" % pureharmDBTestkitV % "it,test" withSources(),
-      "org.typelevel"     %% "log4cats-slf4j"        % log4catsV          % "it,test" withSources(),
+      "com.busymachines"    %% "pureharm-db-testkit"            % pureharmDBTestkitV                withSources(),
+      "com.busymachines"    %% "pureharm-db-test-data"          % pureharmDBTestkitV    % "it,test" withSources(),
+      "org.typelevel"       %% "log4cats-slf4j"                 % log4catsV             % "it,test" withSources(),
       // format: on
     ),
   )
@@ -152,6 +154,50 @@ lazy val `db-testkit-doobie` = project
   )
   .dependsOn(
     `db-doobie`
+  )
+
+lazy val `db-doobie-ce2` = project
+  .settings(commonSettings)
+  .settings(
+    name := "pureharm-db-doobie-ce2",
+    libraryDependencies ++= Seq(
+      // format: off
+      "com.busymachines"    %% "pureharm-core-identifiable"     % pureharmCoreV                     withSources(),
+      "com.busymachines"    %% "pureharm-core-anomaly"          % pureharmCoreV                     withSources(),
+      "com.busymachines"    %% "pureharm-core-sprout"           % pureharmCoreV                     withSources(),
+      "com.busymachines"    %% "pureharm-effects-cats-2"        % pureharmEffectsV                  withSources(),
+      "com.busymachines"    %% "pureharm-db-core"               % pureharmDBCoreV                   withSources(),
+      "com.busymachines"    %% "pureharm-db-core-jdbc"          % pureharmDBCoreJDBCV               withSources(),
+      "com.busymachines"    %% "pureharm-json-circe"            % pureharmJSONCirceV                withSources(),
+      "org.tpolecat"        %% "doobie-core"                    % doobieCE2V                        withSources(),
+      "org.tpolecat"        %% "doobie-hikari"                  % doobieCE2V                        withSources(),
+      "org.tpolecat"        %% "doobie-postgres"                % doobieCE2V                        withSources(),
+      // format: on
+    ),
+  )
+  .settings(
+    javaOptions ++= Seq("-source", "1.8", "-target", "1.8")
+  )
+
+lazy val `db-testkit-doobie-ce2` = project
+  .settings(commonSettings)
+  .configs(IntegrationTest)
+  .settings(Defaults.itSettings)
+  .settings(
+    name := "pureharm-db-testkit-doobie-ce2",
+    libraryDependencies ++= Seq(
+      // format: off
+      "com.busymachines"    %% "pureharm-db-testkit-ce2"        % pureharmDBTestkitV                withSources(),
+      "com.busymachines"    %% "pureharm-db-test-data-ce2"      % pureharmDBTestkitV    % "it,test" withSources(),
+      "org.typelevel"       %% "log4cats-slf4j"                 % log4catsCE2V          % "it,test" withSources(),
+      // format: on
+    ),
+  )
+  .settings(
+    javaOptions ++= Seq("-source", "1.8", "-target", "1.8")
+  )
+  .dependsOn(
+    `db-doobie-ce2`
   )
 
 //=============================================================================

@@ -44,12 +44,9 @@ trait DoobieDBTestSetup extends DBTestSetup[Transactor[IO]] with PureharmTestRun
         .info(MDCKeys.testSetup(testOptions))(s"CREATING Transactor[IO] for: ${config.psqlJdbcURL}")
         .to[Resource[IO, *]]
       trans <- Transactor.pureharmTransactor[IO](
-        dbConfig = dbConfig(testOptions),
-        dbConnEC = DoobieConnectionEC.safe(
-          busymachines.pureharm.effects.pools.ExecutionContextFT(
-            cats.effect.unsafe.HackToGetBlockingPool.blockingPoolFromIORuntime(rt.implicitIORuntime)
-          )
-        ),
+        dbConfig  = dbConfig(testOptions),
+        dbConnEC  = DoobieConnectionEC.safe(rt.executionContextFT),
+        dbBlocker = DoobieBlocker(rt.blocker),
       )
 
     } yield trans
